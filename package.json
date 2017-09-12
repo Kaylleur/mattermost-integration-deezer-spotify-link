@@ -1,7 +1,11 @@
 {
   "name": "mattermost-integration-deezer-spotify-link",
   "version": "0.0.0",
-  "private": true,
+  "description": "Mattermost integration to convert deezer and spotify links into each other",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kaylleur/mattermost-integration-deezer-spotify-link"
+  },
   "scripts": {
     "start": "node ./bin/www"
   },
@@ -10,8 +14,11 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
-    "morgan": "~1.8.1",
-    "serve-favicon": "~2.4.2",
-    "twig": "~0.10.3"
+    "morgan": "~1.8.1"
+  },
+  "author": {
+    "name": "Thomas Brunet",
+    "email": "dev@thomas-brunet.fr",
+    "url": "http://github.com/kaylleur"
   }
 }

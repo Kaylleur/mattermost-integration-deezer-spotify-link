@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
+const converterController = require('../controllers/converterController');
 
-/* GET home page. */
-router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
-});
+router.post('/convert', converterController.convertLink);
 
 module.exports = router;

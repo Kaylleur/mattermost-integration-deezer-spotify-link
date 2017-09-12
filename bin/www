@@ -7,13 +7,20 @@
 var app = require('../app');
 var debug = require('debug')('mattermost-integration-deezer-spotify-link:server');
 var http = require('http');
+var config = require('../config');
+
+if(!config){
+  console.error('Missing config file');
+}
+
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(config.global.port);
 app.set('port', port);
+app.set('env', config.global.debug);
 
 /**
  * Create HTTP server.

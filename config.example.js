@@ -5,6 +5,9 @@
  * */
 
 module.exports = {
+  mattermost: {
+    token: (process.env.MATTERMOST_TOKEN || ''),
+  },
   spotify: {
     redirectUri: (process.env.MATTERMOST_INTEGRATION_SPOTIFY_REDIRECTURI || 'http://localhost:3000/spotify/myToken'),
     clientId: (process.env.MATTERMOST_INTEGRATION_SPOTIFY_CLIENT_ID || 'CLIENT_ID'),

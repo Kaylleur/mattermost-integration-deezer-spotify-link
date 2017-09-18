@@ -4,12 +4,12 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('mattermost-integration-deezer-spotify-link:server');
-var http = require('http');
-var config = require('../config');
+const app = require('../app');
+const debug = require('debug')('mattermost-integration-deezer-spotify-link:server');
+const http = require('http');
+const config = require('../config');
 
-if(!config){
+if (!config) {
   console.error('Missing config file');
 }
 
@@ -18,7 +18,7 @@ if(!config){
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(config.global.port);
+let port = normalizePort(config.global.port);
 app.set('port', port);
 app.set('env', config.global.debug);
 
@@ -26,7 +26,7 @@ app.set('env', config.global.debug);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+let server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -41,7 +41,7 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  let port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -65,7 +65,7 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
+  let bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
 
@@ -89,8 +89,8 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
+  let addr = server.address();
+  let bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);

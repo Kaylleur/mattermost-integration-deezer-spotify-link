@@ -23,8 +23,5 @@
     "name": "Thomas Brunet",
     "email": "dev@thomas-brunet.fr",
     "url": "http://github.com/kaylleur"
-  },
-  "devDependencies": {
-    "swagger-node-express": "^2.1.3"
   }
 }

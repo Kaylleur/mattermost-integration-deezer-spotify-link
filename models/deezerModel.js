@@ -19,8 +19,21 @@ module.exports = {
       });
   },
 
-  searchTrack: function (track) {
+  searchTrack: function (trackSearched, album, artist) {
+    return deezer.requestAsync(config.deezer.accessToken,
+      {
+        resource: 'search/track/?q=track:"' + trackSearched + '"',
+        method: 'get',
+      })
+      .then(result => {
+        for (let i = 0; i < result.data.length; i++) {
+          let track = result.data[i];
+          if (track.artist.name.toLowerCase() === artist.toLowerCase() && track.title.toLowerCase() === trackSearched.toLowerCase())
+            return track;
+        }
 
+        return null;
+      });
   },
 
   getAlbum: function (id) {
@@ -31,8 +44,21 @@ module.exports = {
       });
   },
 
-  searchAlbum: function (album) {
+  searchAlbum: function (albumSearched, artist) {
+    return deezer.requestAsync(config.deezer.accessToken,
+      {
+        resource: 'search/album/?q=album:"' + albumSearched + '"',
+        method: 'get',
+      })
+      .then(result => {
+        for (let i = 0; i < result.data.length; i++) {
+          let album = result.data[i];
+          if (album.artist.name.toLowerCase() === artist.toLowerCase() && album.title.toLowerCase() === albumSearched.toLowerCase())
+            return album;
+        }
 
+        return null;
+      });
   },
 
   getArtist: function (id) {
@@ -43,7 +69,20 @@ module.exports = {
       });
   },
 
-  searchArtist: function (artist) {
+  searchArtist: function (artistSearched) {
+    return deezer.requestAsync(config.deezer.accessToken,
+      {
+        resource: 'search/artist/?q=artist:"' + artistSearched + '"',
+        method: 'get',
+      })
+      .then(result => {
+        for (let i = 0; i < result.data.length; i++) {
+          let artist = result.data[i];
+          if (artist.name.toLowerCase() === artistSearched.toLowerCase())
+            return artist;
+        }
 
+        return null;
+      });
   },
 };

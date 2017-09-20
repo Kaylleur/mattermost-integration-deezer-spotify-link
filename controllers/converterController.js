@@ -17,6 +17,7 @@ module.exports = {
 
     // let deezerRegex = /^http[s]?:\/\/www\.deezer\.com\/([a-z]+)\/([0-9]+)\/?/m;
     let deezerRegex = /deezer\.com/m;
+    let username = 'Music-bot';
 
     // let spotifyRegex = /^http[s]?:\/\/open\.spotify\.com\/([a-z]+)\/([a-zA-Z0-9]+)\/?/m;
     let spotifyRegex = /spotify\.com/m;
@@ -65,7 +66,7 @@ module.exports = {
             })
             .then(track => {
               if (track)
-                res.status(200).send({ text: track['external_urls'].spotify });
+                res.status(200).send({ text: track['external_urls'].spotify, username : username });
               else
                 res.status(404).send({ message: 'not found' });
             })
@@ -88,7 +89,7 @@ module.exports = {
             })
             .then(album => {
               if (album)
-                res.status(200).send({ text: album['external_urls'].spotify });
+                res.status(200).send({ text: album['external_urls'].spotify, username : username });
               else
                 res.status(404).send({ message: 'not found' });
             })
@@ -109,7 +110,7 @@ module.exports = {
             })
             .then(artist => {
               if (artist)
-                res.status(200).send({ text: artist['external_urls'].spotify });
+                res.status(200).send({ text: artist['external_urls'].spotify, username : username });
               else
                 res.status(404).send({ message: 'not found' });
             })
@@ -134,7 +135,7 @@ module.exports = {
             })
             .then(track => {
               if (track)
-                res.status(200).send({ text: track.link });
+                res.status(200).send({ text: track.link, username : username });
               else
                 res.status(404).send({ message: 'not found' });
             }, err => {
@@ -155,7 +156,7 @@ module.exports = {
             })
             .then(album => {
               if (album)
-                res.status(200).send({ text: album.link });
+                res.status(200).send({ text: album.link, username : username });
               else
                 res.status(404).send({ message: 'not found' });
             }, err => {
@@ -174,7 +175,7 @@ module.exports = {
             })
             .then(artist => {
               if (artist)
-                res.status(200).send({ text: artist.link });
+                res.status(200).send({ text: artist.link, username : username });
               else
                 res.status(404).send({ message: 'not found' });
             }, err => {

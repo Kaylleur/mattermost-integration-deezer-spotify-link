@@ -6,13 +6,14 @@
 const deezerModel = require('../models/deezerModel');
 const spotifyModel = require('../models/spotifyModel');
 const url = require('url');
+const config = require('../config');
 
 module.exports = {
   convertLink: function (req, res, next) {
-    if (!req.body.link) throw { code: 400, message: 'MISSING LINK' };
+    if (!req.body.text) throw { code: 400, message: 'MISSING LINK' };
 
     let fieldsAuthorized = ['artist', 'track', 'album'];
-    const link = url.parse(req.body.link);
+    const link = url.parse(req.body.text);
 
     // let deezerRegex = /^http[s]?:\/\/www\.deezer\.com\/([a-z]+)\/([0-9]+)\/?/m;
     let deezerRegex = /deezer\.com/m;
@@ -20,8 +21,8 @@ module.exports = {
     // let spotifyRegex = /^http[s]?:\/\/open\.spotify\.com\/([a-z]+)\/([a-zA-Z0-9]+)\/?/m;
     let spotifyRegex = /spotify\.com/m;
 
-    let deezerResult = deezerRegex.exec(req.body.link);
-    let spotifyResult = spotifyRegex.exec(req.body.link);
+    let deezerResult = deezerRegex.exec(req.body.text);
+    let spotifyResult = spotifyRegex.exec(req.body.text);
 
     let fieldSearched = '';
     let idSearched = '';
@@ -48,9 +49,10 @@ module.exports = {
     let artist;
 
     if (deezerResult) { //from deezer to spotify
-
+      if (config.global.debug) console.log('url matching with deezer');
       switch (fieldSearched){
         case 'track':
+          if (config.global.debug) console.log('url matched on track url');
           deezerModel.getTrack(idSearched)
             .then(result => {
               track = result.title;
@@ -63,7 +65,7 @@ module.exports = {
             })
             .then(track => {
               if (track)
-                res.status(200).send({ link: track['external_urls'].spotify });
+                res.status(200).send({ text: track['external_urls'].spotify });
               else
                 res.status(404).send({ message: 'not found' });
             })
@@ -74,6 +76,7 @@ module.exports = {
 
           break;
         case 'album':
+          if (config.global.debug) console.log('url matched on album url');
           deezerModel.getAlbum(idSearched)
             .then(result => {
               album = result.title;
@@ -85,7 +88,7 @@ module.exports = {
             })
             .then(album => {
               if (album)
-                res.status(200).send({ link: album['external_urls'].spotify });
+                res.status(200).send({ text: album['external_urls'].spotify });
               else
                 res.status(404).send({ message: 'not found' });
             })
@@ -95,6 +98,7 @@ module.exports = {
             });
           break;
         case 'artist':
+          if (config.global.debug) console.log('url matched on artist url');
           deezerModel.getArtist(idSearched)
             .then(result => {
               artist = result.name;
@@ -105,7 +109,7 @@ module.exports = {
             })
             .then(artist => {
               if (artist)
-                res.status(200).send({ link: artist['external_urls'].spotify });
+                res.status(200).send({ text: artist['external_urls'].spotify });
               else
                 res.status(404).send({ message: 'not found' });
             })
@@ -116,10 +120,10 @@ module.exports = {
           break;
       }
     } else if (spotifyResult) { //from spotify to deezer
-      console.log('spotify match');
-
+      if (config.global.debug) console.log('url matching on spotify');
       switch (fieldSearched){
         case 'track':
+          if (config.global.debug) console.log('url matched on track url');
           spotifyModel.initSpotify()
             .then(() =>  spotifyModel.getTrack(idSearched))
             .then(result => {
@@ -130,7 +134,7 @@ module.exports = {
             })
             .then(track => {
               if (track)
-                res.status(200).send({ link: track.link });
+                res.status(200).send({ text: track.link });
               else
                 res.status(404).send({ message: 'not found' });
             }, err => {
@@ -141,6 +145,7 @@ module.exports = {
 
           break;
         case 'album':
+          if (config.global.debug) console.log('url matched on album url');
           spotifyModel.initSpotify()
             .then(() =>  spotifyModel.getAlbum(idSearched))
             .then(result => {
@@ -150,7 +155,7 @@ module.exports = {
             })
             .then(album => {
               if (album)
-                res.status(200).send({ link: album.link });
+                res.status(200).send({ text: album.link });
               else
                 res.status(404).send({ message: 'not found' });
             }, err => {
@@ -160,6 +165,7 @@ module.exports = {
             });
           break;
         case 'artist':
+          if (config.global.debug) console.log('url matched on artist url');
           spotifyModel.initSpotify()
             .then(() =>  spotifyModel.getArtist(idSearched))
             .then(result => {
@@ -168,7 +174,7 @@ module.exports = {
             })
             .then(artist => {
               if (artist)
-                res.status(200).send({ link: artist.link });
+                res.status(200).send({ text: artist.link });
               else
                 res.status(404).send({ message: 'not found' });
             }, err => {

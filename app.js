@@ -2,7 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const config = require('./config');
+const authenticator = require('./authenticator');
 
 const index = require('./routes/index');
 
@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use('/', authenticator);
 app.use('/', index);
 
 // catch 404 and forward to error handler

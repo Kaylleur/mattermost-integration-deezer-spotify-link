@@ -23,5 +23,6 @@
     "name": "Thomas Brunet",
     "email": "dev@thomas-brunet.fr",
     "url": "http://github.com/kaylleur"
-  }
+  },
+  "license" : "MIT"
 }

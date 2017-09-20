@@ -43,7 +43,7 @@
     }
 ```
 
-- Server will answer by json with json
+- Server will answer by json with
 ```json
     {
       "text" : "//link converted"

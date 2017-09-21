@@ -16,14 +16,16 @@ You should get `offline_access` to get token with no expiration date
 Optional variable, this is the port on which the server will listen (default listenning port 3000).
 - MATTERMOST_INTEGRATION_DEBUG
 Optional variable, this is the variable to set debug to true if necessary (default false).
-
+- MATTERMOST_INTEGRATION_BOT_USERNAME
+Optional variable to configure bot username (default Music-bot)
+- MATTERMOST_INTEGRATION_BOT_ICON_URL
+Optional variable to configure bot icon url (default icon : ![pic](https://maxcdn.icons8.com/Share/icon/Music//metal_music1600.png=50x50))
 ```
 docker run --name mattermost-integration-spotify-deezer-converter \
     -p 3000:3000 \
     -e MATTERMOST_TOKEN=myToken \
     -e MATTERMOST_INTEGRATION_SPOTIFY_CLIENT_ID=clientId \
     -e MATTERMOST_INTEGRATION_SPOTIFY_CLIENT_SECRET=clientSecret \
-    -e MATTERMOST_INTEGRATION_DEEZER_ACCESS_TOKEN=accessToken \
     -e MATTERMOST_INTEGRATION_DEEZER_ACCESS_TOKEN=accessToken \
     -d kaylleur\mattermost-integration-deezer-spotify-link
 ```

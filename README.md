@@ -24,10 +24,13 @@
 - - Channel : `//pick your channel`
 - - Trigger Words : 
 ```
-    deezer
-    spotify
+    https://open.spotify.com
+    https://www.deezer.com
+    http://open.spotify.com
+    http://www.deezer.com
 ``` 
-- - Callback URLs : `http://[your_host]:[port_setted]/convert`
+- - Trigger when : `First word starts with a trigger word`
+- - Callback URLs : `http://[your_host]:[port_set]/convert`
 
 - Copy the token to the config file
 - After App start, app default is listenning on port 3000

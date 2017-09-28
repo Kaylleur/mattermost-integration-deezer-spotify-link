@@ -7,13 +7,14 @@
 module.exports = {
   mattermost: {
     token: (process.env.MATTERMOST_TOKEN || ''),
+    bot : {
+      username : (process.env.MATTERMOST_USERNAME || 'Music-bot'),
+      icon_url : (process.env.MATTERMOST_ICON_URL || 'https://maxcdn.icons8.com/Share/icon/Music//metal_music1600.png'),
+    }
   },
   spotify: {
     clientId: (process.env.MATTERMOST_INTEGRATION_SPOTIFY_CLIENT_ID || 'CLIENT_ID'),
     clientSecret: (process.env.MATTERMOST_INTEGRATION_SPOTIFY_CLIENT_SECRET || 'CLIENT_SECRET'),
-  },
-  deezer: {
-    accessToken: (process.env.MATTERMOST_INTEGRATION_DEEZER_ACCESS_TOKEN || 'ACCESS_TOKEN'),
   },
   global: {
     port: (process.env.MATTERMOST_INTEGRATION_PORT || '3000'),

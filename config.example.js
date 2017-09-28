@@ -22,6 +22,6 @@ module.exports = {
   },
 
   checkConfig: function () {
-    return (this.mattermost.token && this.spotify.clientId && this.spotify.clientSecret && this.deezer.accessToken);
+    return (this.mattermost.token && this.spotify.clientId && this.spotify.clientSecret);
   },
 };

@@ -70,7 +70,7 @@ module.exports = {
               else
                 res.status(404).send({ message: 'not found' });
             })
-            .error(err => {
+            .catch(err => {
               console.log(err);
               res.status(500).send(err);
             });
@@ -93,7 +93,7 @@ module.exports = {
               else
                 res.status(404).send({ message: 'not found' });
             })
-            .error(err => {
+            .catch(err => {
               console.log(err);
               res.status(500).send(err);
             });
@@ -114,7 +114,7 @@ module.exports = {
               else
                 res.status(404).send({ message: 'not found' });
             })
-            .error(err => {
+            .catch(err => {
               console.log(err);
               res.status(500).send(err);
             });

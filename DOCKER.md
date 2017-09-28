@@ -9,9 +9,6 @@ Mandatory specify the token of the outgoing webhook from mattermost to communica
 
 - MATTERMOST_INTEGRATION_SPOTIFY_CLIENT_ID, MATTERMOST_INTEGRATION_SPOTIFY_CLIENT_SECRET
 Mandatory specify the client id and secret api to communicate with [spotify](https://developer.spotify.com/web-api/tutorial/)
-- MATTERMOST_INTEGRATION_DEEZER_ACCESS_TOKEN
-Mandatory specify the access token to communicate with [deezer](https://developers.deezer.com/api/oauth)
-You should get `offline_access` to get token with no expiration date
 - MATTERMOST_INTEGRATION_PORT
 Optional variable, this is the port on which the server will listen (default listenning port 3000).
 - MATTERMOST_INTEGRATION_DEBUG

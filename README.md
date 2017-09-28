@@ -49,7 +49,9 @@
 - Server will answer by json with
 ```json
     {
-      "text" : "//link converted"
+      "text" : "//link converted",
+      "username" : "Music-bot",
+      "icon_url" : "https://maxcdn.icons8.com/Share/icon/Music//metal_music1600.png"
     }
 ```
 

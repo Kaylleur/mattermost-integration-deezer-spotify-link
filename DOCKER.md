@@ -23,7 +23,6 @@ docker run --name mattermost-integration-spotify-deezer-converter \
     -e MATTERMOST_TOKEN=myToken \
     -e MATTERMOST_INTEGRATION_SPOTIFY_CLIENT_ID=clientId \
     -e MATTERMOST_INTEGRATION_SPOTIFY_CLIENT_SECRET=clientSecret \
-    -e MATTERMOST_INTEGRATION_DEEZER_ACCESS_TOKEN=accessToken \
     -d kaylleur\mattermost-integration-deezer-spotify-link
 ```
 

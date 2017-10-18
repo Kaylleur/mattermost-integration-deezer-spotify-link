@@ -37,12 +37,14 @@
 - Send POST request on /convert with body
 ```json
     {
-      "link" : "http://www.deezer.com/track/405503712" 
+      "token" : "TOKEN_IN_CONFIG",
+      "text" : "http://www.deezer.com/track/405503712" 
     }
 ```
 ```json
     {
-      "link" : "https://open.spotify.com/track/3aLSrx8qhssXrh5yjB6oy9" 
+      "token" : "TOKEN_IN_CONFIG",
+      "text" : "https://open.spotify.com/track/3aLSrx8qhssXrh5yjB6oy9" 
     }
 ```
 

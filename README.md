@@ -59,4 +59,6 @@
 
 Mattermost will type it into the channel.
 
+![capture](https://i.ibb.co/JdGwMcJ/Capture.png)
+
 Link to [Docker hub](https://hub.docker.com/r/kaylleur/mattermost-integration-deezer-spotify-link/)

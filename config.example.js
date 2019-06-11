@@ -6,7 +6,7 @@
 
 module.exports = {
   mattermost: {
-    token: (process.env.MATTERMOST_TOKEN || ''),
+    token: (process.env.MATTERMOST_TOKEN || 'MATTERMOST_TOKEN'),
     bot: {
       username: (process.env.MATTERMOST_USERNAME || 'Music-bot'),
       icon_url: (process.env.MATTERMOST_ICON_URL || 'https://maxcdn.icons8.com/Share/icon/Music//metal_music1600.png'),

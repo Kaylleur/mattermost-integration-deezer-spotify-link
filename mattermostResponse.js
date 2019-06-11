@@ -7,8 +7,8 @@ const config = require('./config');
 
 class MattermostResponse{
 
-  constructor(link) {
-    this.text = link;
+  constructor(text) {
+    this.text = text;
     this.username = config.mattermost.bot.username;
     this['icon_url'] = config.mattermost.bot.icon_url;
   }

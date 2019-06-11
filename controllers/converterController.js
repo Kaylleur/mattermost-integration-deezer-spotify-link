@@ -10,16 +10,13 @@ const config = require('../config');
 const MattermostResponse = require('../mattermostResponse');
 
 module.exports = {
-  convertLink: function (req, res, next) {
+  convertLink: function (req, res) {
     if (!req.body.text) throw { code: 400, message: 'MISSING LINK' };
 
     let fieldsAuthorized = ['artist', 'track', 'album'];
     const link = url.parse(req.body.text);
 
-    // let deezerRegex = /^http[s]?:\/\/www\.deezer\.com\/([a-z]+)\/([0-9]+)\/?/m;
     let deezerRegex = /deezer\.com/m;
-
-    // let spotifyRegex = /^http[s]?:\/\/open\.spotify\.com\/([a-z]+)\/([a-zA-Z0-9]+)\/?/m;
     let spotifyRegex = /spotify\.com/m;
 
     let deezerResult = deezerRegex.exec(req.body.text);
@@ -39,21 +36,27 @@ module.exports = {
       }
     }
 
-    if (fieldSearched === '')
+    if (fieldSearched === ''){
       res.status(400).send({ message: 'Can not identify the URL' });
+      return;
+    }
 
-    if (!idSearched)
+    if (!idSearched){
       res.status(400).send({ message: 'No id found' });
+      return;
+    }
 
     let track;
     let album;
     let artist;
 
+    console.info('INFO : Request receive for id ' + idSearched + ' on ' + fieldSearched);
+
     if (deezerResult) { //from deezer to spotify
-      if (config.global.debug) console.log('url matching with deezer');
+      if (config.global.debug) console.debug('url matching with deezer');
       switch (fieldSearched){
         case 'track':
-          if (config.global.debug) console.log('url matched on track url');
+          if (config.global.debug) console.debug('url matched on track url');
           deezerModel.getTrack(idSearched)
             .then(result => {
               track = result.title;
@@ -68,7 +71,7 @@ module.exports = {
               if (track)
                 res.status(200).send(new MattermostResponse(track['external_urls'].spotify));
               else
-                res.status(404).send({ message: 'not found' });
+                res.status(200).send(new MattermostResponse('Can not find the equivalent on Spotify! :confused:'));
             })
             .catch(err => {
               console.log(err);
@@ -77,7 +80,7 @@ module.exports = {
 
           break;
         case 'album':
-          if (config.global.debug) console.log('url matched on album url');
+          if (config.global.debug) console.debug('url matched on album url');
           deezerModel.getAlbum(idSearched)
             .then(result => {
               album = result.title;
@@ -91,7 +94,7 @@ module.exports = {
               if (album)
                 res.status(200).send(new MattermostResponse(album['external_urls'].spotify));
               else
-                res.status(404).send({ message: 'not found' });
+                res.status(200).send(new MattermostResponse('Can not find the equivalent on Spotify! :confused:'));
             })
             .catch(err => {
               console.log(err);
@@ -99,7 +102,7 @@ module.exports = {
             });
           break;
         case 'artist':
-          if (config.global.debug) console.log('url matched on artist url');
+          if (config.global.debug) console.debug('url matched on artist url');
           deezerModel.getArtist(idSearched)
             .then(result => {
               artist = result.name;
@@ -112,7 +115,7 @@ module.exports = {
               if (artist)
                 res.status(200).send(new MattermostResponse(artist['external_urls'].spotify));
               else
-                res.status(404).send({ message: 'not found' });
+                res.status(200).send(new MattermostResponse('Can not find the equivalent on Spotify! :confused:'));
             })
             .catch(err => {
               console.log(err);
@@ -121,13 +124,15 @@ module.exports = {
           break;
       }
     } else if (spotifyResult) { //from spotify to deezer
-      if (config.global.debug) console.log('url matching on spotify');
+      if (config.global.debug) console.debug('url matching on spotify');
       switch (fieldSearched){
         case 'track':
-          if (config.global.debug) console.log('url matched on track url');
+          if (config.global.debug) console.debug('url matched on track url');
           spotifyModel.initSpotify()
             .then(() =>  spotifyModel.getTrack(idSearched))
             .then(result => {
+              if(!result) return;
+
               track = result.name;
               album = result.album.name;
               artist =  result.artists[0].name;
@@ -137,7 +142,7 @@ module.exports = {
               if (track)
                 res.status(200).send(new MattermostResponse(track.link));
               else
-                res.status(404).send({ message: 'not found' });
+                res.status(200).send(new MattermostResponse('Can not find the equivalent on Deezer! :confused:'));
             }, err => {
 
               console.log(err);
@@ -146,10 +151,12 @@ module.exports = {
 
           break;
         case 'album':
-          if (config.global.debug) console.log('url matched on album url');
+          if (config.global.debug) console.debug('url matched on album url');
           spotifyModel.initSpotify()
             .then(() =>  spotifyModel.getAlbum(idSearched))
             .then(result => {
+              if(!result) return;
+
               album = result.name;
               artist =  result.artists[0].name;
               return deezerModel.searchAlbum(album, artist);
@@ -158,7 +165,7 @@ module.exports = {
               if (album)
                 res.status(200).send(new MattermostResponse(album.link));
               else
-                res.status(404).send({ message: 'not found' });
+                res.status(200).send(new MattermostResponse('Can not find the equivalent on Deezer! :confused:'));
             }, err => {
 
               console.log(err);
@@ -166,10 +173,12 @@ module.exports = {
             });
           break;
         case 'artist':
-          if (config.global.debug) console.log('url matched on artist url');
+          if (config.global.debug) console.debug('url matched on artist url');
           spotifyModel.initSpotify()
             .then(() =>  spotifyModel.getArtist(idSearched))
             .then(result => {
+              if(!result) return;
+
               artist = result.name;
               return deezerModel.searchArtist(artist);
             })
@@ -177,7 +186,7 @@ module.exports = {
               if (artist)
                 res.status(200).send(new MattermostResponse(artist.link));
               else
-                res.status(404).send({ message: 'not found' });
+                res.status(200).send(new MattermostResponse('Can not find the equivalent on Deezer! :confused:'));
             }, err => {
 
               console.log(err);
@@ -187,7 +196,7 @@ module.exports = {
       }
 
     }else {
-      res.send({ message: "doesn't match" });
+      res.status(400).send({ message: "URL doesn't match deezer or spotify rules." });
     }
   },
 };

@@ -1,9 +1,7 @@
  # mattermost-integration-deezer-spotify-link
  
  Detect and convert Spotify or Deezer links into each others   
- 
- #### Beta test
- 
+  
  To start
  ```
  npm install

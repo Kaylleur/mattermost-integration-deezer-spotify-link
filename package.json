@@ -1,6 +1,6 @@
 {
   "name": "mattermost-integration-deezer-spotify-link",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Mattermost integration to convert deezer and spotify links into each other",
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
     "debug": "~2.6.3",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
-    "spotify-web-api-node": "^2.5.0"
+    "spotify-web-api-node": "^4.0.0"
   },
   "author": {
     "name": "Thomas Brunet",

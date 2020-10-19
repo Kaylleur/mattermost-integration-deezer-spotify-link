@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const authenticator = require('./authenticator');
 
 const index = require('./routes/index');
+const unsecure = require('./routes/unsecure');
 
 let app = express();
 
@@ -13,8 +14,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/', authenticator);
-app.use('/', index);
+app.use('/secure/', authenticator);
+app.use('/secure/', index);
+app.use('/unsecure/', unsecure);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

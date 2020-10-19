@@ -7,9 +7,14 @@
     "url": "https://github.com/Kaylleur/mattermost-integration-deezer-spotify-link"
   },
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "jest",
+    "prettier": "prettier --check ./models",
+    "lint": "eslint",
+    "apidoc": "apidoc -i routes/ -o docs/"
   },
   "dependencies": {
+    "apidoc": "^0.25.0",
     "axios": "^0.19.0",
     "bluebird": "^3.5.0",
     "body-parser": "^1.19.0",
@@ -17,6 +22,7 @@
     "debug": "~2.6.3",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
+    "prettier": "^2.1.2",
     "spotify-web-api-node": "^4.0.0"
   },
   "author": {
@@ -24,5 +30,10 @@
     "email": "dev@thomas-brunet.fr",
     "url": "http://github.com/Kaylleur"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^26.6.0",
+    "eslint": "^7.11.0",
+    "jest-html-reporters": "^2.1.0"
+  }
 }

@@ -103,13 +103,16 @@ send:slack:after:deploy:
   variables:
     SLACK_CHANNEL: ci
   script:
-    - SLACK_MESSAGE=$WEB_URL/$CI_PROJECT_NAME/$CI_COMMIT_REF_SLUG/docs
+    - SLACK_MESSAGE=$WEB_URL/$CI_PROJECT_NAME/$CI_COMMIT_REF_SLUG/
     - cd /opt/script
     - ./script.sh
 
 send:slack:after:test:
   stage: message
   image: kaylleur/test-ynov:latest
+  when: on_failure
+  needs:
+    - test:unit
   only:
     - develop
   except:

@@ -1,0 +1,122 @@
+image: node:latest
+
+stages:
+  - prettier
+  - lint
+  - test
+  - after-test
+  - doc
+  - after-doc
+  - message
+
+prettier:
+  stage: prettier
+  script:
+    - npm i
+    - npm run prettier
+  only:
+    - develop
+    - /^feature/.*/
+  except:
+    - tags
+
+lint:
+  stage: lint
+  script:
+    - npm i
+    - npm run lint
+  only:
+    - develop
+    - /^feature/.*/
+  except:
+    - tags
+
+test:unit:
+  stage: test
+  script:
+    - npm i
+    - npm run test
+  only:
+    - develop
+  except:
+    - tags
+  artifacts:
+    paths:
+      - jest_html_reporters.html
+    when: always
+
+.deploy:
+  image: kroniak/ssh-client
+  script:
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+
+deploy:report:
+  extends:
+    - .deploy
+  stage: after-test
+  when: always
+  needs:
+    - test:unit
+  only:
+    - develop
+  script:
+    - ssh $SSH_USER@$SSH_SERVER_IP -p $SSH_PORT "mkdir -p $SSH_DIR/$CI_PROJECT_NAME"
+    - scp -P $SSH_PORT ./jest_html_reporters.html $SSH_USER@$SSH_SERVER_IP:$SSH_DIR/$CI_PROJECT_NAME/jest_html_reporters-$(date +%Y%m%d).html
+
+doc:api:
+  stage: doc
+  script:
+    - npm i
+    - npm run apidoc
+  only:
+    - develop
+    - master
+  artifacts:
+    paths:
+      - docs/**/*
+    when: on_success
+
+
+deploy:apidoc:
+  extends:
+    - .deploy
+  stage: after-doc
+  needs:
+    - doc:api
+  only:
+    - develop
+    - master
+  script:
+    - ssh $SSH_USER@$SSH_SERVER_IP -p $SSH_PORT "mkdir -p $SSH_DIR/$CI_PROJECT_NAME"
+    - scp -r -P $SSH_PORT ./docs $SSH_USER@$SSH_SERVER_IP:$SSH_DIR/$CI_PROJECT_NAME/$CI_COMMIT_REF_SLUG
+
+send:slack:after:deploy:
+  stage: message
+  image: kaylleur/test-ynov:latest
+  only:
+    - master
+    - tags
+  variables:
+    SLACK_CHANNEL: ci
+  script:
+    - SLACK_MESSAGE=$WEB_URL/$CI_PROJECT_NAME/$CI_COMMIT_REF_SLUG/docs
+    - cd /opt/script
+    - ./script.sh
+
+send:slack:after:test:
+  stage: message
+  image: kaylleur/test-ynov:latest
+  only:
+    - develop
+  except:
+    - tags
+  variables:
+    SLACK_CHANNEL: ci
+  script:
+    - SLACK_MESSAGE=$WEB_URL/$CI_PROJECT_NAME/jest_html_reporters-$(date +%Y%m%d).html
+    - cd /opt/script
+    - ./script.sh

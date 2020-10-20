@@ -63,7 +63,7 @@ deploy:report:
     - test:unit
   only:
     - develop
-  script:
+  after_script:
     - ssh $SSH_USER@$SSH_SERVER_IP -p $SSH_PORT "mkdir -p $SSH_DIR/$CI_PROJECT_NAME"
     - scp -P $SSH_PORT ./jest_html_reporters.html $SSH_USER@$SSH_SERVER_IP:$SSH_DIR/$CI_PROJECT_NAME/jest_html_reporters-$(date +%Y%m%d).html
 
@@ -90,7 +90,7 @@ deploy:apidoc:
   only:
     - develop
     - master
-  script:
+  after_script:
     - ssh $SSH_USER@$SSH_SERVER_IP -p $SSH_PORT "mkdir -p $SSH_DIR/$CI_PROJECT_NAME"
     - scp -r -P $SSH_PORT ./docs $SSH_USER@$SSH_SERVER_IP:$SSH_DIR/$CI_PROJECT_NAME/$CI_COMMIT_REF_SLUG
 

@@ -15,7 +15,7 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "morgan": "^1.9.1",
     "spotify-web-api-node": "^4.0.0"
   },

@@ -130,6 +130,10 @@ module.exports = {
           if (config.global.debug) console.debug('url matched on track url');
           spotifyModel.initSpotify()
             .then(() =>  spotifyModel.getTrack(idSearched))
+            .catch(err => {
+              console.error(`Couldn't get track ${idSearched}`, err);
+              throw err;
+            })
             .then(result => {
               if(!result) return;
 
@@ -138,14 +142,18 @@ module.exports = {
               artist =  result.artists[0].name;
               return deezerModel.searchTrack(track, album, artist);
             })
+            .catch(err => {
+              console.error(`Couldn't search track ${idSearched} on Deezer`, err);
+              throw err;
+            })
             .then(track => {
               if (track)
                 res.status(200).send(new MattermostResponse(track.link));
               else
                 res.status(200).send(new MattermostResponse('Can not find the equivalent on Deezer! :confused:'));
-            }, err => {
-
-              console.log(err);
+            })
+            .catch(err => {
+              console.error(`Unhandled error on track`, err);
               res.status(500).send(err);
             });
 
@@ -153,7 +161,13 @@ module.exports = {
         case 'album':
           if (config.global.debug) console.debug('url matched on album url');
           spotifyModel.initSpotify()
-            .then(() =>  spotifyModel.getAlbum(idSearched))
+            .then(() => {
+              return spotifyModel.getAlbum(idSearched)
+            })
+            .catch(err => {
+              console.error(`Couldn't get album ${idSearched}`, err);
+              throw err;
+            })
             .then(result => {
               if(!result) return;
 
@@ -161,42 +175,55 @@ module.exports = {
               artist =  result.artists[0].name;
               return deezerModel.searchAlbum(album, artist);
             })
+            .catch(err => {
+              console.error(`Couldn't search album ${idSearched} on Deezer`, err);
+              throw err;
+            })
             .then(album => {
               if (album)
                 res.status(200).send(new MattermostResponse(album.link));
               else
                 res.status(200).send(new MattermostResponse('Can not find the equivalent on Deezer! :confused:'));
-            }, err => {
-
-              console.log(err);
+            })
+            .catch(err => {
+              console.error(`Unhandled error on album`, err);
               res.status(500).send(err);
             });
           break;
         case 'artist':
-          if (config.global.debug) console.debug('url matched on artist url');
+          if (config.global.debug) console.debug(`URL matched on artist url`);
           spotifyModel.initSpotify()
-            .then(() =>  spotifyModel.getArtist(idSearched))
+            .then(() => {
+              return spotifyModel.getArtist(idSearched)
+            })
+            .catch(err => {
+              console.error(`Couldn't get track ${idSearched}`, err);
+              throw err;
+            })
             .then(result => {
               if(!result) return;
 
               artist = result.name;
               return deezerModel.searchArtist(artist);
             })
+            .catch(err => {
+              console.error(`Couldn't search artist ${idSearched} on Deezer`, err);
+              throw err;
+            })
             .then(artist => {
               if (artist)
                 res.status(200).send(new MattermostResponse(artist.link));
               else
-                res.status(200).send(new MattermostResponse('Can not find the equivalent on Deezer! :confused:'));
-            }, err => {
-
-              console.log(err);
-              res.status(500).send(err);
-            });
+                res.status(200).send(new MattermostResponse(`Can't find the equivalent on Deezer! :confused:`));
+            })
+            .catch(err => {
+                console.error(`Unhandled error on artist`, err);
+                res.status(500).send(err);
+              });
           break;
       }
-
-    }else {
-      res.status(400).send({ message: "URL doesn't match deezer or spotify rules." });
+    } else {
+      res.status(400).send({ message: "URL doesn't match Deezer or Spotify rules." });
     }
   },
 };

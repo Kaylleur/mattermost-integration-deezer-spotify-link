@@ -33,7 +33,7 @@ http://open.spotify.com
 http://www.deezer.com
 ``` 
 - Triggers when : `First word starts with a trigger word`
-- Callback URLs : `http://[your_host]:[port_set]/secure/convert`
+- Callback URLs : `http://[your_host]:[port_set]/convert`
 
 ### Mattermost global configuration
 
@@ -56,6 +56,10 @@ http://www.deezer.com
 * MATTERMOST_INTEGRATION_SPOTIFY_CLIENT_SECRET
 * MATTERMOST_INTEGRATION_PORT
 * MATTERMOST_INTEGRATION_DEBUG
+
+You should use this variable too:
+
+- NODE_TLS_REJECT_UNAUTHORIZED=0
 
 ### Testing the integration
 

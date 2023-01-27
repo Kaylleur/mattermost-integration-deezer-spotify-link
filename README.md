@@ -1,37 +1,64 @@
- # mattermost-integration-deezer-spotify-link
- 
- Detect and convert Spotify or Deezer links into each others   
-  
- To start
- ```
- npm install
- 
- cp config.example.js config.js
- 
- //file it
- vim config.js
- 
- npm start
+# mattermost-integration-deezer-spotify-link
 
+[Docker hub](https://hub.docker.com/r/kaylleur/mattermost-integration-deezer-spotify-link/)
+
+Detect and convert Spotify or Deezer links into each others   
+
+## Quickstart
+
+```bash
+npm install
+
+cp config.example.js config.js
+
+# Edit the configuration
+vim config.js
+
+npm start
 ```
 
-### How to use
+## How to use
 
-- Set outgoing webhooks on mattermost
-- - Content Type : `application/json`
-- - Channel : `//pick your channel`
-- - Trigger Words : 
+### Mattermost Outgoing Webhook creation
+
+Create a new outgoing webhook:
+
+- Content Type : `application/json`
+- Channel : `//pick your channel`
+- Trigger Words : 
 ```
-    https://open.spotify.com
-    https://www.deezer.com
-    http://open.spotify.com
-    http://www.deezer.com
+https://open.spotify.com
+https://www.deezer.com
+http://open.spotify.com
+http://www.deezer.com
 ``` 
-- - Trigger when : `First word starts with a trigger word`
-- - Callback URLs : `http://[your_host]:[port_set]/convert`
+- Triggers when : `First word starts with a trigger word`
+- Callback URLs : `http://[your_host]:[port_set]/secure/convert`
 
-- Copy the token to the config file
-- After App start, app default is listenning on port 3000
+### Mattermost global configuration
+
+- Ensure your Mattermost allow local insecure connections (`AllowedUntrustedInternalConnections` property)
+
+### Server configuration
+
+#### Standalone server
+
+- Copy `config.example.js` to `config.js`
+- Update the config file `config.js`
+- Run with `npm start`
+
+#### Or Docker environment
+
+* MATTERMOST_TOKEN
+* MATTERMOST_USERNAME
+* MATTERMOST_ICON_URL
+* MATTERMOST_INTEGRATION_SPOTIFY_CLIENT_ID
+* MATTERMOST_INTEGRATION_SPOTIFY_CLIENT_SECRET
+* MATTERMOST_INTEGRATION_PORT
+* MATTERMOST_INTEGRATION_DEBUG
+
+### Testing the integration
+
 - Send POST request on /convert with body
 ```json
     {
@@ -58,5 +85,3 @@
 Mattermost will type it into the channel.
 
 ![capture](https://i.ibb.co/JdGwMcJ/Capture.png)
-
-Link to [Docker hub](https://hub.docker.com/r/kaylleur/mattermost-integration-deezer-spotify-link/)

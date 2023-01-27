@@ -8,7 +8,6 @@ const SpotifyApi = require('spotify-web-api-node');
 const spotify = new SpotifyApi({
   clientId: config.spotify.clientId,
   clientSecret: config.spotify.clientSecret,
-  redirectUri: config.spotify.redirectUri,
 });
 
 module.exports = {

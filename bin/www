@@ -5,7 +5,6 @@
  */
 
 const app = require('../app');
-const debug = require('debug')('mattermost-integration-deezer-spotify-link:server');
 const http = require('http');
 const config = require('../config');
 
@@ -96,6 +95,5 @@ function onListening() {
   let bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
-  console.info('INFO : App ready...');
+  console.info(`The server is ready and listening on ${addr.port}.`);
 }
